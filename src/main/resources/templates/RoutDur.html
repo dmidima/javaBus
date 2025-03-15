@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Маршруты</title>
+</head>
+<body>
+
+<h1>Список маршрутов</h1>
+<table border="1">
+    <tr>
+        <th>Номер маршрута</th>
+        <th>Откуда</th>
+        <th>Куда</th>
+        <th>Длительность</th>
+        <th>Дата и время отправления</th>
+        <th>Дата и время прибытия</th>
+    </tr>
+    <tr th:each="route : ${routes}">
+        <td th:text="${route.routeNumber}"></td>
+        <td th:text="${route.startPoint}"></td>
+        <td th:text="${route.endPoint}"></td>
+        <td th:text="${route.duration}"></td>
+        <td th:text="${route.departureDatetime}"></td>
+        <td th:text="${route.arrivalDatetime}"></td>
+    </tr>
+</table>
+
+
+
+</body>
+</html>
+
+

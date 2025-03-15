@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Route Details</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            font-size: 16px;
+        }
+        h1 {
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+        p {
+            margin-bottom: 10px;
+        }
+        .back-button {
+            text-decoration: none;
+            padding: 10px 20px;
+            background-color: #f0f0f0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            color: #000;
+        }
+        .additional-info {
+            background-color: #f8f9fa;
+            padding: 10px;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+<h1>О маршруте</h1>
+<p th:text="'Номер маршрута: ' + ${route.routeNumber}"></p>
+<p th:text="'Откуда: ' + ${route.startPoint}"></p>
+<p th:text="'Куда: ' + ${route.endPoint}"></p>
+<p th:text="'Длительность: ' + ${route.duration}"></p>
+<p th:text="'Дата и время отправления: ' + ${#dates.format(route.departureDatetime, 'yyyy-MM-dd HH:mm')}"></p>
+<p th:text="'Дата и время прибытия: ' + ${#dates.format(route.arrivalDatetime, 'yyyy-MM-dd HH:mm')}"></p>
+<p th:text="'Цена: ' + ${route.duration * 2}"></p>
+
+<div class="additional-info">
+    <h3>Дополнительная информация</h3>
+    <p>На данном маршруте ездит транспорт на 16 мест.</p>
+    <p>Страховка для пассажиров приобретается отдельно на вокзале в пункте отправления.</p>
+    <p>Правила провоза багажа:</p>
+    <ul>
+        <li>Один пассажир может провезти бесплатно одну сумку весом до 20 кг.</li>
+        <li>За дополнительный багаж взимается отдельная плата.</li>
+    </ul>
+    <p>Другие правила:</p>
+    <ul>
+        <li>Пассажиры должны быть на месте отправления за 15 минут до отправления.</li>
+        <li>Курить и распивать спиртные напитки в транспорте запрещено.</li>
+    </ul>
+</div>
+
+<a href="/routes" class="back-button">Перейти к выбору маршрута</a>
+</body>
+</html>

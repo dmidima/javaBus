@@ -1,11 +1,372 @@
+
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml" xmlns:security=""
+      xmlns:c="http://www.w3.org/1999/XSL/Transform" taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <head>
-    <title>Hello Thymeleaf!</title>
+    <title>busbus</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 </head>
+
 <body>
 
-<h1 th:text="${title}"></h1>
 
+<div class="navigation">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/f6/RWBA_Bus.svg/60px-RWBA_Bus.svg.png" class="logo" style=" padding-left:10;padding-top:0; padding-bottom:0;padding-right:0; ">
+    <a href="product" class="nav-link" style="padding-left:0">BusBus</a>
+<!--    <a href="users" class="nav-link right">Регистрация</a>-->
+<!--    <a href="users/login" class="nav-link right">Войти</a>-->
+
+    <a href="/logout" class="nav-link right">Выйти</a>
+    <a href="profile" class="nav-link right">Личный кабинет</a>
+    <a href="/dispet_return" class="nav-link right" th:if="${hasRoleAdmin}">Заявки на возврат Билетов</a>
+
+
+
+</div>
+
+
+
+
+
+<!--<h1>Главная страница</h1>-->
+
+<!--<div th:if="${hasRoleAdmin}">-->
+<!--    <p>Привет, администратор!</p>-->
+<!--</div>-->
+<!--<div th:unless="${hasRoleAdmin}">-->
+<!--    <p>Привет, обычный пользователь!</p>-->
+<!--</div>-->
+
+
+
+
+
+
+<style>
+
+    .logo {
+        float: left;
+        padding: 10px;
+    }
+
+    .navigation {
+        background-color: #3498db;
+        overflow: hidden;
+        height: 60px;
+        position: fixed; /* Фиксируем панель меню */
+        width: 100%; /* Растягиваем на всю ширину экрана */
+        top: 0; /* Прикрепляем к верхней части экрана */
+        z-index: 1; /* Устанавливаем панель меню выше других элементов */
+    }
+    .nav-link {
+        float: left;
+        display: block;
+        color: white;
+        text-align: center;
+        padding: 20px;
+        text-decoration: none;
+    }
+    .nav-link.right {
+        float: right;
+    }
+    .logo {
+        float: left;
+        margin-right: 10px; /* Добавляем отступ справа от логотипа */
+    }
+    .header {
+        background-image: url('https://s16.stc.yc.kpcdn.net/share/i/12/12184083/de-1200x675.jpg');
+        background-size: cover;
+        background-position: left;
+        height: 350px;
+        color: #000000;
+        margin-top: 60px; /* Устанавливаем расстояние между панелью и картинкой */
+        padding-top: 20px; /* Добавляем отступ сверху для контента */
+    }
+    .header h1 {
+        font-size: 36px;
+        padding: 20px;
+        text-align: center;
+        color: #FFFFFF;
+    }
+    .header-content {
+        display: flex;
+        justify-content: left;
+        flex-wrap: wrap;
+        border: 2px solid #3498db; /* Обводим форму в рамку */
+        background-color: rgba(255, 255, 255, 0.5); /* Прозрачный фон */
+        padding: 20px;
+    }
+    .input-group {
+        text-align: left;
+        margin: 10px;
+    }
+    label {
+        display: block;
+        margin-bottom: 5px;
+    }
+    input, button {
+        padding: 15px;
+    }
+    button {
+        background-color: #e67e22;
+        color: #fff;
+        border: none;
+        cursor: pointer;
+        margin-left: 10px;
+        font-size: 18px; /* Увеличиваем размер шрифта кнопки */
+    }
+    button:hover {
+        background-color: #ffcc99;
+    }
+
+
+
+    input[type="date"]::placeholder {
+    color: #f0f0f0; /* Меняем цвет placeholder в поле даты на #f0f0f0 */
+    }
+
+
+    input[type="date"] + label {
+        text-align: left; /* Выравниваем надпись "Дата выезда:" по левому краю */
+        margin-left: -100px; /* Смещаем надпись "Дата выезда:" чуть левее */
+    }
+    input[type="text"], input[type="submit"] {
+        color: blue; /* Меняем цвет текста в полях "Откуда?", "Куда?" и кнопке на синий */
+    }
+    .form-container {
+        width: 50%; /* Уменьшаем ширину формы до 50% */
+        margin: auto; /* Центрируем форму по горизонтали */
+    }
+</style>
+
+<div class="header">
+    <h1>Купить билет на автобус</h1>
+    <div class="form-container">
+        <form action="/routes" method="GET" class="header-content">
+            <div class="input-group">
+                <label for="from">Пункт отправления</label>
+                <input type="text" id="from" name="from" placeholder="Откуда?" required>
+            </div>
+            <div class="input-group">
+                <label for="to">Пункт прибытия</label>
+                <input type="text" id="to" name="to" placeholder="Куда?" required>
+            </div>
+            <div class="input-group">
+                <label for="date">Дата выезда</label>
+                <input type="date" id="date" name="date" required>
+                <button type="submit">Найти</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+    <style>
+        /* Основные стили */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f0f0f0;
+        }
+
+        .container {
+            width: 80%;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+
+        h2 {
+            color: #333;
+        }
+
+        /* Стили для популярных маршрутов */
+        #popular-routes {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            flex-wrap: wrap;
+            margin-top: 20px;
+        }
+
+        .popular-route {
+            width: 30%;
+            background-color: #fff;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+            padding: 10px;
+            text-align: center;
+        }
+
+        .popular-route img {
+            max-width: 100%;
+            border-radius: 5px;
+        }
+
+        .popular-route p {
+            color: #666;
+        }
+
+        .popular-route a {
+            display: inline-block;
+            padding: 5px 10px;
+            background-color: #007bff;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 5px;
+            margin-top: 10px;
+        }
+
+        .popular-route a:hover {
+            background-color: #0056b3;
+        }
+
+</style>
+
+
+
+<div class="container">
+    <h2>Популярные маршруты</h2>
+
+    <div id="popular-routes">
+
+        <div class="popular-route">
+            <img src="https://cdn.bfm.ru/gallery/width960/2017/04/23/1_1.jpg" alt="Маршрут 1">
+            <br>
+            <p>Владимир-Москва</p>
+            <p>Цена: от 700 руб</p>
+
+<!--            <a href="routes.html"></a>-->
+
+        </div>
+
+        <div class="popular-route">
+            <img src="https://www.advantour.com/img/russia/images/ivanovo.jpg" alt="Маршрут 2">
+            <br>
+            <p>Владимир-Иваново</p>
+            <p>Цена: от 550 руб</p>
+<!--            <a href="routes.html">Купить</a>-->
+        </div>
+
+        <div class="popular-route">
+            <img src="https://static.tildacdn.com/tild3264-3835-4365-a438-386563643662/shutterstock_2098958.jpg" alt="Маршрут 3">
+            <br>
+            <p>Владимир-Казань</p>
+            <p>Цена: от 2100 руб</p>
+<!--            <a href="routes.html">Купить</a>-->
+        </div>
+
+    </div>
+
+
+    <h2>Билеты на автобус: онлайн расписание и стоимость билетов</h2>
+    <br>
+<!--    <div id="routes">-->
+<!--        <div class="route"><a href="/routes/Vladimir-Alexandrov">Владимир - Александров</a></div>-->
+<!--        <div class="route"><a href="/routes/Vladimir-Vyazniki">Владимир - Вязники</a></div>-->
+<!--        <div class="route"><a href="/routes/Vladimir-Gorokhovets">Владимир - Гороховец</a></div>-->
+<!--        <div class="route"><a href="/routes/Vladimir-Kameshkovo">Владимир - Камешково</a></div>-->
+<!--        <div class="route"><a href="/routes/Vladimir-Kirzhach">Владимир - Киржач</a></div>-->
+<!--        <div class="route"><a href="/routes/Vladimir-Kovrov">Владимир - Ковров</a></div>-->
+<!--        <div class="route"><a href="/routes/Vladimir-Kolchugino">Владимир - Кольчугино</a></div>-->
+<!--        <div class="route"> <a href="/routes/Vladimir-Murom">Владимир - Муром</a></div>-->
+<!--        <div class="route"><a href="/routes/Vladimir-Petushki">Владимир - Петушки</a></div>-->
+<!--        <div class="route"><a href="/routes/Vladimir-Sudogda">Владимир - Судогда</a></div>-->
+<!--        <div class="route"><a href="/routes/Vladimir-Suzdal">Владимир - Суздаль</a></div>-->
+<!--        <div class="route"><a href="/routes/Vladimir-Yuriev">Владимир - Юрьев</a></div>-->
+<!--    </div>-->
+
+    <style>
+        .route {
+        margin: 10px 0;
+        padding: 5px;
+        background-color: #f0f0f0;
+        border-radius: 5px;
+    }
+
+    .route a {
+        text-decoration: none;
+        color: #1e90ff; /* Цвет текста ссылки - голубой */
+
+    }
+
+    .route a:hover {
+        color: #e67e22; /* Изменение цвета текста на нежно оранжевый при наведении */
+    }
+
+    </style>
+
+
+    <style>
+        #footer {
+        background-color: #3498db; /* Синий цвет фона подвала */
+        color: #fff; /* Цвет текста подвала */
+        padding: 12px 0; /* Внутренний отступ сверху и снизу */
+        width: 100%; /* Ширина подвала на 100% ширины окна браузера */
+
+        bottom: 0; /* Прикрепляем подвал к нижней части экрана */
+        left: 0; /* Выравниваем подвал слева */
+    }
+    .footer-copyright {
+        text-align: center; /* Выравнивание текста по центру */
+    }
+    .footer-copyright p {
+        margin: 0; /* Убираем внешние отступы для абзацев */
+    }
+    </style>
+
+
+    <a href="/routes" class="btn btn-primary">Подобрать маршрут по параметрам</a>
+
+<br>
+
+
+
+
+<BR><BR>
+    <footer id="footer" class="footer bg-dark text-light">
+        <div class="container-fluid" style="padding-left: 0; padding-right: 0;">
+            <div class="row">
+                <div class="col-md-12 text-center">
+                    <p>&copy; 2024. Все права защищены. «BusBus.RU» — Онлайн сервис покупки билетов на автобусы.</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+<script>
+    document.getElementById('departure-date').valueAsDate = new Date();
+</script>
+
+    <script>
+        const departureDateInput = document.getElementById('date');
+
+        // Получаем текущую дату
+        const today = new Date();
+
+        // Устанавливаем минимальное значение (сегодняшняя дата)
+        departureDateInput.min = today.toISOString().split('T')[0];
+
+        // Устанавливаем максимальное значение (через месяц)
+        const tomorrow = new Date();
+        tomorrow.setDate(today.getDate() + 17);
+        departureDateInput.max = tomorrow.toISOString().split('T')[0];
+
+        // Подставляем текущую дату в поле ввода
+        const currentDate = today.toISOString().split('T')[0];
+        departureDateInput.value = currentDate;
+    </script>
+
+
+</div>>
 </body>
 </html>
+

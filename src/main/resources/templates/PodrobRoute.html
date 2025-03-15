@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Маршруты</title>
+
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            border: 1px solid black;
+            padding: 8px;
+            text-align: center;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+    </style>
+
+
+    <style>
+        form {
+            max-width: 400px;
+            margin: 0 auto;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+        }
+
+        button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+    </style>
+
+</head>
+<body>
+
+<h1>Расписание и Подробности маршрута</h1>
+<table>
+    <tr>
+        <th>Номер маршрута</th>
+        <th>Откуда</th>
+        <th>Куда</th>
+        <th>Длительность</th>
+        <th>Дата и время отправления</th>
+        <th>Дата и время прибытия</th>
+        <th>цена</th>
+    </tr>
+    <tr th:each="route : ${routes}">
+        <td th:text="${route.routeNumber}"></td>
+        <td th:text="${route.startPoint}"></td>
+        <td th:text="${route.endPoint}"></td>
+        <td th:text="${route.duration}"></td>
+        <td th:text="${#dates.format(route.departureDatetime, 'dd-MM-yyyy HH:mm')}"></td>
+        <td th:text="${#dates.format(route.arrivalDatetime, 'dd-MM-yyyy HH:mm')}"></td>
+        <td th:text="${route.duration * 2}"></td>
+    </tr>
+</table>
+<br>
+<form action="/purchaseTicket" method="post">
+    <h2 id="routeTitle">Покупка билета на рейс</h2>
+
+    <label for="date">Дата отправления:</label>
+    <input type="date" id="date" name="departureDate" required><br>
+
+    <label for="time">Время отправления:</label>
+    <select id="time" name="departureTime" required>
+        <option value="2024-04-07T16:00:00">07-04-2024 16:00</option>
+        <option value="2024-04-08T16:00:00">08-04-2024 16:00</option>
+    </select><br>
+
+    <label for="seat">Место:</label>
+    <input type="text" id="seat" name="seatNumber" required><br>
+
+    <label for="email">Email:</label>
+    <input type="email" id="email" name="email" required><br>
+
+    <label for="passport">Паспортные данные:</label>
+    <input type="text" id="passport" name="passport" required><br>
+
+    <button type="submit">Купить билет</button>
+</form>
+
+
+
+<script>
+    // Функция для обновления временных опций в зависимости от выбранной даты
+    document.getElementById("date").addEventListener("change", function() {
+        var selectedDate = this.value;
+        var today = new Date().toISOString().split('T')[0];
+        if (selectedDate === today) {
+            // Если выбранная дата равна текущей, добавляем доступные временные опции
+            document.getElementById("time").innerHTML = "";
+            var currentTime = new Date();
+            if (currentTime.getHours() < 16) {
+                var option = document.createElement("option");
+                option.text = "16:00";
+                option.value = "16:00:00";
+                document.getElementById("time").add(option);
+            }
+        } else {
+            // Если выбранная дата не равна текущей, убираем временные опции
+            document.getElementById("time").innerHTML = "";
+        }
+    });
+</script>
+
+<script>
+    // Получаем текущую дату и форматируем для использования в поле ввода
+    var today = new Date().toISOString().split('T')[0];
+    document.getElementById("date").setAttribute("min", today);
+</script>
+
+</body>
+</html>
+
+

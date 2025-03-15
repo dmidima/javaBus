@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Заявки на возврат</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+</head>
+<body>
+
+<div class="navigation">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/f6/RWBA_Bus.svg/60px-RWBA_Bus.svg.png" class="logo" style=" padding-left:10;padding-top:0; padding-bottom:0;padding-right:0; ">
+    <a href="product" class="nav-link" style="padding-left:0">BusBus</a>
+
+    <a href="/logout" class="nav-link right">Выйти</a>
+    <a href="profile" class="nav-link right">Личный кабинет</a>
+    <a href="/dispet_return" class="nav-link right" th:if="${hasRoleAdmin}">Заявки на возврат Билетов</a>
+
+</div>
+
+<BR><BR><BR><BR>
+
+
+<style>
+
+    .logo {
+        float: left;
+        padding: 10px;
+    }
+
+    .navigation {
+        background-color: #3498db;
+        overflow: hidden;
+        height: 60px;
+        position: fixed; /* Фиксируем панель меню */
+        width: 100%; /* Растягиваем на всю ширину экрана */
+        top: 0; /* Прикрепляем к верхней части экрана */
+        z-index: 1; /* Устанавливаем панель меню выше других элементов */
+    }
+    .nav-link {
+        float: left;
+        display: block;
+        color: white;
+        text-align: center;
+        padding: 20px;
+        text-decoration: none;
+    }
+    .nav-link.right {
+        float: right;
+    }
+    .logo {
+        float: left;
+        margin-right: 10px; /* Добавляем отступ справа от логотипа */
+    }
+    .header {
+        background-image: url('https://s16.stc.yc.kpcdn.net/share/i/12/12184083/de-1200x675.jpg');
+        background-size: cover;
+        background-position: left;
+        height: 350px;
+        color: #000000;
+        margin-top: 60px; /* Устанавливаем расстояние между панелью и картинкой */
+        padding-top: 20px; /* Добавляем отступ сверху для контента */
+    }
+    .header h1 {
+        font-size: 36px;
+        padding: 20px;
+        text-align: center;
+        color: #FFFFFF;
+    }
+    .header-content {
+        display: flex;
+        justify-content: left;
+        flex-wrap: wrap;
+        border: 2px solid #3498db; /* Обводим форму в рамку */
+        background-color: rgba(255, 255, 255, 0.5); /* Прозрачный фон */
+        padding: 20px;
+    }
+    .input-group {
+        text-align: left;
+        margin: 10px;
+    }
+    label {
+        display: block;
+        margin-bottom: 5px;
+    }
+
+</style>
+
+<h2>Завяки на возрат билетов</h2>
+
+<ul>
+    <li th:each="ticket : ${ticketList}">
+
+            <ul>
+                <li>Номер Билета: <span th:text="${ticket[0]}"></span></li>
+                <li>Номер маршрута: <span th:text="${ticket[1]}"></span></li>
+                <li>Откуда: <span th:text="${ticket[2]}"></span></li>
+                <li>Куда: <span th:text="${ticket[3]}"></span></li>
+                <li>Длительность: <span th:text="${ticket[4]}"></span></li>
+                <li>Время отправления: <span th:text="${ticket[5]}"></span></li>
+                <li>Время прибытия: <span th:text="${ticket[6]}"></span></li>
+                <li>Номер места: <span th:text="${ticket[7]}"></span></li>
+                <li>Цена: <span th:text="${ticket[8]}"></span></li>
+<!--                <li>Статус: <span th:text="${ticket[9]}"></span></li>-->
+                <li>
+                    <form method="post" action="/dispet_return">
+                        <input name="ticketId" type="hidden" th:value="${ticket[0]}">
+                        <button type="submit">Удалить билет</button>
+                    </form>
+                </li>
+                <br>
+                <br>
+            </ul>
+
+    </li>
+</ul>
+
+
+
+</body>
+</html>

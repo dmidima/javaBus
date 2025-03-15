@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Маршруты</title>
+
+
+</head>
+<body>
+
+<h1>Отсортированные маршруты по продолжительности</h1>
+<table>
+    <tr>
+        <th>Номер маршрута</th>
+        <th>Откуда</th>
+        <th>Куда</th>
+        <th>Длительность</th>
+        <th>Дата и время отправления</th>
+        <th>Дата и время прибытия</th>
+        <th>Цена</th>
+    </tr>
+    <tr th:each="route : ${routes}">
+        <td th:text="${route.routeNumber}"></td>
+        <td th:text="${route.startPoint}"></td>
+        <td th:text="${route.endPoint}"></td>
+        <td th:text="${route.duration}"></td>
+        <td th:text="${#dates.format(route.departureDatetime, 'dd-MM-yyyy HH:mm')}"></td>
+        <td th:text="${#dates.format(route.arrivalDatetime, 'dd-MM-yyyy HH:mm')}"></td>
+        <td th:text="${route.duration * 2}"></td>
+    </tr>
+</table>
+
+<title>Все продолжительности маршрутов</title>
+<table>
+    <tr>
+        <th>Продолжительность</th>
+    </tr>
+    <tr th:each="duration : ${durations}">
+        <td th:text="${duration}"></td>
+    </tr>
+</table>
+
+
+</body>
+</html>
+
+

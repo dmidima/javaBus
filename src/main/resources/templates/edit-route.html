@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Edit Route</title>
+</head>
+<body>
+<h1>Edit Route</h1>
+<form action="/routes/{routeId}/update" method="post" th:action="@{/routes/{routeId}/update(routeId=${route.id})}">
+    <input type="hidden" id="routeId" name="routeId" th:value="${route.id}" />
+
+    <label for="routeNumber">Route Number:</label>
+    <input type="number" id="routeNumber" name="routeNumber" th:value="${route.routeNumber}" required><br><br>
+
+    <label for="startPoint">Start Point:</label>
+    <input type="text" id="startPoint" name="startPoint" th:value="${route.startPoint}" required><br><br>
+
+    <label for="endPoint">End Point:</label>
+    <input type="text" id="endPoint" name="endPoint" th:value="${route.endPoint}" required><br><br>
+
+    <label for="duration">Duration:</label>
+    <input type="number" id="duration" name="duration" th:value="${route.duration}" required><br><br>
+
+    <label for="departureDatetime">Departure Datetime:</label>
+    <input type="datetime-local" id="departureDatetime" name="departureDatetime" th:value="${#dates.format(route.departureDatetime, 'yyyy-MM-dd''T''HH:mm')}" required><br><br>
+
+    <label for="arrivalDatetime">Arrival Datetime:</label>
+    <input type="datetime-local" id="arrivalDatetime" name="arrivalDatetime" th:value="${#dates.format(route.arrivalDatetime, 'yyyy-MM-dd''T''HH:mm')}" required><br><br>
+
+    <button type="submit">Update Route</button>
+</form>
+
+
+<a href="/routes" class="back-button">Назад</a>
+</body>
+</html>

@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Покупка билета</title>
+
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            border: 1px solid black;
+            padding: 8px;
+            text-align: center;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+    </style>
+
+
+    <style>
+        form {
+            max-width: 400px;
+            margin: 0 auto;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+        }
+
+        button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+    </style>
+
+</head>
+<body>
+
+<form id="222" action="/purchaseTicket" method="post">
+    <h2 id="routeTitle">Покупка билета на рейс</h2>
+
+
+    <input th:value="${route.id}" type="hidden" id="routeId" name="routeId" required readonly><br>
+
+    <label for="departureFrom">Откуда:</label>
+    <input th:value="${route.startPoint}" type="text" id="departureFrom" name="departureFrom" required readonly><br>
+
+    <label for="departureTo">Куда:</label>
+    <input th:value="${route.endPoint}" type="text" id="departureTo" name="departureTo" required readonly><br>
+
+    <label for="duration">Длительность (в минутах):</label>
+    <input th:value="${route.duration}" type="text" id="duration" name="duration" required readonly><br>
+
+    <label for="departureDatetime">Дата и время отправления:</label>
+    <input th:value="${route.departureDatetime}" type="text" id="departureDatetime" name="departureDatetime" required readonly><br>
+
+    <label for="arrivalDatetime">Дата и время прибытия:</label>
+    <input th:value="${route.arrivalDatetime}" type="text" id="arrivalDatetime" name="arrivalDatetime" required readonly><br>
+
+<!--    <th:block th:each="seat : ${seats}">-->
+<!--        <p th:text="${seat}"></p>-->
+<!--    </th:block>-->
+
+
+
+    <label >место:</label>
+    <select name="seatNumber">
+        <option value="" selected disabled>Выберите место</option>
+        <th:block th:each="seat : ${seats}">
+            <p th:text="${seat}"></p>
+            <option name="seatNumber" th:value="${seat}" th:text="${seat}"></option>
+        </th:block>
+    </select>
+
+
+    <label for="price">Цена:</label>
+    <input th:value="${route.duration * 2}" type="text" id="price" name="price" required readonly><br>
+
+    <button type="submit">Купить билет</button>
+</form>
+
+</body>
+</html>

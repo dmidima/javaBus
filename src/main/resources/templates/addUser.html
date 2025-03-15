@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Регистрация</title>
+
+
+    <style>
+        body {
+            font-family: Arial;
+            font-size: 16px;
+        }
+
+        form {
+            width: 350px;
+            margin: auto;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        input {
+            width: 100%;
+            padding: 5px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        button {
+            width: 100%;
+            padding: 5px;
+            background-color: #4CAF50;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            height: 33px;
+            font-size: 15px;
+        }
+
+        button:hover {
+            background-color: #3E8E41;
+        }
+    </style>
+
+</head>
+<body>
+<br><br>
+<form id="registrationForm" action="/users" method="post">
+
+    <h1>Регистрация</h1>
+
+<!--    <label for="name">Username:</label>-->
+<!--    <input type="text" id="name" name="name" required><br><br>-->
+<!--    <label for="name">Имя пользователя:</label>-->
+<!--    <input type="text" id="name" name="name" required pattern="[A-Za-z]+" placeholder="Только буквы">-->
+<!--    <br><br>-->
+<!--    <label for="password">Password:</label>-->
+<!--    <input type="password" id="password" name="password" required><br><br>-->
+<!--    <label for="password">Пароль:</label>-->
+<!--    <input type="password" id="password" name="password" required pattern="(?=.*[A-Za-z])(?=.*\d).{4,}" title="Пароль должен содержать как минимум одну букву и одну цифру, не менее 4 символов">-->
+
+
+
+
+    <label for="name">Имя пользователя:</label>
+    <input type="text" id="name" name="name" required pattern="[A-Za-zА-Яа-я]+" placeholder="Только буквы">
+    <br><br>
+    <label for="password">Пароль:</label>
+    <input type="password" id="password" name="password" required pattern="(?=.*[A-Za-zА-Яа-я])(?=.*\d).{4,}" title="Пароль должен содержать как минимум одну букву и одну цифру, не менее 4 символов" placeholder="Буквы и цирры">
+
+    <br><br>
+    <button type="submit" >Зарегистрироваться</button>
+
+</form>
+
+
+
+</body>
+</html>
